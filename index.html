@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Biblio — Découvrez, lisez, comprenez</title>
+    <meta name="description" content="Biblio vous aide à découvrir, lire et comprendre les grandes œuvres littéraires.">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="logo" onclick="showHome()">
+        Biblio<span>.</span>
+    </div>
+
+    <nav>
+        <button onclick="showHome()">Accueil</button>
+        <button onclick="goToLibrary()">Explorer</button>
+        <button onclick="goToLibrary()">Genres</button>
+    </nav>
+
+    <button class="mobile-menu" onclick="toggleMenu()">☰</button>
+
+</header>
+
+
+<main>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-label">
+            📚 Votre bibliothèque commence ici
+        </div>
+
+        <h1>
+            Découvrez.<br>
+            Lisez.<br>
+            <span>Comprenez.</span>
+        </h1>
+
+        <p>
+            Explorez les grandes œuvres, découvrez leur histoire
+            et approfondissez votre compréhension grâce à des
+            contenus clairs et structurés.
+        </p>
+
+        <div class="hero-search">
+            <span>⌕</span>
+
+            <input
+                id="heroSearch"
+                type="text"
+                placeholder="Rechercher un livre, un auteur..."
+                oninput="searchFromHero()"
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= QUICK FILTERS ================= -->
+
+<section class="quick-section">
+
+    <div class="section-header">
+
+        <div>
+            <div class="eyebrow">EXPLORER</div>
+            <h2>Que souhaitez-vous découvrir ?</h2>
+        </div>
+
+        <button class="view-all" onclick="goToLibrary()">
+            Voir toute la bibliothèque →
+        </button>
+
+    </div>
+
+
+    <div class="categories">
+
+        <button class="category active" onclick="filterGenre('Tous', this)">
+            Tous
+        </button>
+
+        <button class="category" onclick="filterGenre('Roman', this)">
+            📖 Romans
+        </button>
+
+        <button class="category" onclick="filterGenre('Aventure', this)">
+            ⚔️ Aventure
+        </button>
+
+        <button class="category" onclick="filterGenre('Fantastique', this)">
+            🐉 Fantastique
+        </button>
+
+        <button class="category" onclick="filterGenre('Science-fiction', this)">
+            🚀 Science-fiction
+        </button>
+
+        <button class="category" onclick="filterGenre('Théâtre', this)">
+            🎭 Théâtre
+        </button>
+
+        <button class="category" onclick="filterGenre('Philosophie', this)">
+            🧠 Philosophie
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LIBRARY ================= -->
+
+<section class="library-section" id="library">
+
+    <div class="section-header">
+
+        <div>
+            <div class="eyebrow">BIBLIOTHÈQUE</div>
+            <h2>À découvrir</h2>
+
+            <p class="section-description">
+                Une sélection d'œuvres à découvrir.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="library-tools">
+
+        <div class="search-box">
+
+            <span>⌕</span>
+
+            <input
+                id="librarySearch"
+                type="text"
+                placeholder="Rechercher un livre, un auteur..."
+                oninput="searchLibrary()"
+            >
+
+        </div>
+
+
+        <div class="filter-row">
+
+            <select
+                id="genreFilter"
+                onchange="changeGenreFilter(this.value)"
+            >
+                <option value="Tous">Tous les genres</option>
+            </select>
+
+
+            <select
+                id="authorFilter"
+                onchange="applyFilters()"
+            >
+                <option value="Tous">Tous les auteurs</option>
+            </select>
+
+
+            <select
+                id="eraFilter"
+                onchange="applyFilters()"
+            >
+                <option value="Tous">Toutes les époques</option>
+            </select>
+
+
+            <button
+                class="reset-filters"
+                onclick="resetFilters()"
+            >
+                ↺ Réinitialiser
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="activeFilters"
+        class="active-filters hidden"
+    ></div>
+
+
+    <div
+        id="resultCount"
+        class="result-count"
+    ></div>
+
+
+    <div
+        class="book-grid"
+        id="bookGrid"
+    ></div>
+
+
+    <div
+        id="noResults"
+        class="no-results hidden"
+    >
+
+        <div>🔎</div>
+
+        <h3>Aucun livre trouvé</h3>
+
+        <p>
+            Essayez un autre titre, auteur ou genre.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= UNDERSTAND ================= -->
+
+<section class="understand-section">
+
+    <div class="understand-content">
+
+        <div class="eyebrow light">
+            🧠 COMPRENDRE UNE ŒUVRE
+        </div>
+
+        <h2>
+            Lire une histoire,<br>
+            c'est bien.<br>
+            <span>La comprendre, c'est mieux.</span>
+        </h2>
+
+        <p>
+            Biblio ne veut pas seulement vous donner accès aux livres.
+            Nous voulons vous aider à comprendre leurs histoires,
+            leurs personnages, leurs thèmes et ce qui les rend
+            importantes.
+        </p>
+
+        <button
+            onclick="goToLibrary()"
+            class="primary-button"
+        >
+            Explorer les œuvres
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= BOOK PAGE ================= -->
+
+<section
+    id="bookPage"
+    class="book-page hidden"
+>
+
+    <div class="book-page-inner">
+
+        <!-- RETOUR -->
+
+        <button
+            class="book-back"
+            onclick="showHome()"
+        >
+            ← Retour à la bibliothèque
+        </button>
+
+
+        <!-- EN-TÊTE DU LIVRE -->
+
+        <div class="book-hero">
+
+            <!-- COUVERTURE -->
+
+            <div class="book-cover-container">
+
+                <img
+                    id="bookCover"
+                    class="book-cover-image"
+                    src=""
+                    alt=""
+                >
+
+            </div>
+
+
+            <!-- INFORMATIONS -->
+
+            <div class="book-main-info">
+
+                <div class="eyebrow">
+                    ŒUVRE
+                </div>
+
+                <h1 id="bookTitle"></h1>
+
+                <p
+                    id="bookAuthor"
+                    class="book-author"
+                ></p>
+
+
+                <div
+                    id="bookTags"
+                    class="book-tags"
+                ></div>
+
+
+                <p
+                    id="bookDescription"
+                    class="book-description"
+                ></p>
+
+
+                <!-- MÉTADONNÉES -->
+
+                <div
+                    id="bookMeta"
+                    class="book-meta"
+                ></div>
+
+
+                <!-- ACTIONS -->
+
+                <div class="book-actions">
+
+                    <button
+                        class="primary-button"
+                        onclick="showSummary()"
+                    >
+                        ⚡ Comprendre l'œuvre
+                    </button>
+
+                    <button
+                        class="secondary-button"
+                        onclick="readBook()"
+                    >
+                        📖 Lire l'œuvre
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- POURQUOI CETTE ŒUVRE ? -->
+
+        <section class="book-explanation">
+
+            <div class="eyebrow">
+                POUR COMMENCER
+            </div>
+
+            <h2>
+                Pourquoi cette œuvre est-elle importante ?
+            </h2>
+
+            <p id="bookWhy"></p>
+
+        </section>
+
+
+        <!-- CONTENU DISPONIBLE -->
+
+        <section class="book-resources">
+
+            <div class="eyebrow">
+                BIBLIO
+            </div>
+
+            <h2>
+                Les clés de l'œuvre
+            </h2>
+
+
+            <!-- SEUL LE QUIZ EST CONSERVÉ -->
+
+            <div class="resource-grid">
+
+                <button
+                    class="resource-card"
+                    onclick="startQuiz()"
+                >
+
+                    <span class="resource-icon">
+                        ❓
+                    </span>
+
+                    <span class="resource-content">
+
+                        <strong>
+                            Quiz
+                        </strong>
+
+                        <small>
+                            Vérifier sa compréhension
+                        </small>
+
+                    </span>
+
+                    <span class="resource-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- RÉSUMÉ / FICHE EXISTANTE -->
+
+        <div
+            id="summarySection"
+            class="summary-section"
+        >
+
+            <div class="eyebrow">
+                ⚡ L'ESSENTIEL
+            </div>
+
+            <h2 id="summaryTitle"></h2>
+
+
+            <div class="summary-card short-summary-card">
+
+                <p id="shortSummary"></p>
+
+            </div>
+
+
+            <div class="summary-navigation">
+
+                <button
+                    class="summary-mode active"
+                    onclick="showShortSummary()"
+                >
+                    ⚡ L'essentiel
+                </button>
+
+                <button
+                    class="summary-mode"
+                    onclick="openTenMinuteSummary()"
+                >
+                    🧠 Résumé en 10 minutes
+                </button>
+
+                <button
+                    class="summary-mode"
+                    onclick="showStudySheet()"
+                >
+                    🎓 Fiche de révision
+                </button>
+
+            </div>
+
+
+            <div id="studySheet">
+
+                <div class="details-grid">
+
+                    <div class="detail-card">
+
+                        <h3>
+                            👥 Personnages
+                        </h3>
+
+                        <ul id="charactersList"></ul>
+
+                    </div>
+
+
+                    <div class="detail-card">
+
+                        <h3>
+                            🎯 Thèmes
+                        </h3>
+
+                        <div
+                            id="themesList"
+                            class="theme-list"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="details-grid">
+
+                    <div class="detail-card">
+
+                        <h3>
+                            🔗 Relations
+                        </h3>
+
+                        <ul id="relationsList"></ul>
+
+                    </div>
+
+
+                    <div class="detail-card">
+
+                        <h3>
+                            🗺️ Chronologie
+                        </h3>
+
+                        <ol
+                            id="timelineList"
+                            class="timeline-list"
+                        ></ol>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analysis-card">
+
+                    <div class="eyebrow">
+                        🎯 ANALYSE
+                    </div>
+
+                    <h3>
+                        Ce que raconte réellement l'œuvre
+                    </h3>
+
+                    <p id="bookAnalysis"></p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= 10 MINUTE SUMMARY ================= -->
+
+<section
+    id="tenMinuteReader"
+    class="ten-minute-reader hidden"
+>
+
+    <div class="reader-top">
+
+        <button
+            onclick="closeTenMinuteSummary()"
+            class="reader-back"
+        >
+            ← Retour à la fiche
+        </button>
+
+
+        <div class="reader-heading">
+
+            <span>🧠</span>
+
+            <div>
+
+                <strong>
+                    Résumé en 10 minutes
+                </strong>
+
+                <small id="readerMeta">
+                    ≈ 10 min de lecture
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="reader-progress-container">
+
+        <div
+            id="readerProgress"
+            class="reader-progress"
+        ></div>
+
+    </div>
+
+
+    <article class="reader-content">
+
+        <div class="eyebrow">
+            RÉSUMÉ COMPLET
+        </div>
+
+        <h1 id="readerTitle"></h1>
+
+
+        <p class="reader-intro">
+
+            Ce résumé raconte l'ensemble de l'œuvre, de son début
+            jusqu'à sa conclusion. Il présente les événements essentiels,
+            les personnages, leurs motivations et les enjeux de l'histoire.
+
+        </p>
+
+
+        <div class="spoiler-note">
+
+            ⚠️ <strong>Spoilers intégrals :</strong>
+
+            ce résumé révèle notamment les événements importants
+            et la fin de l'œuvre.
+
+        </div>
+
+
+        <nav class="reader-toc">
+
+            <div class="eyebrow">
+                DANS CE RÉSUMÉ
+            </div>
+
+            <div id="readerToc"></div>
+
+        </nav>
+
+
+        <div id="tenMinuteContent"></div>
+
+
+        <div class="reader-end">
+
+            <div class="reader-end-icon">
+                ✓
+            </div>
+
+            <div class="eyebrow">
+                FIN DU RÉSUMÉ
+            </div>
+
+            <h2>
+                Vous avez maintenant les clés de l'œuvre.
+            </h2>
+
+            <p id="readerEndMeta"></p>
+
+
+            <button
+                class="primary-button"
+                onclick="startQuizFromReader()"
+            >
+                ❓ Tester ma compréhension
+            </button>
+
+
+            <button
+                class="reader-return-button"
+                onclick="closeTenMinuteSummary()"
+            >
+                ← Revenir à la fiche du livre
+            </button>
+
+        </div>
+
+    </article>
+
+</section>
+
+
+<!-- ================= QUIZ MODAL ================= -->
+
+<div
+    id="quizModal"
+    class="quiz-modal hidden"
+>
+
+    <div class="quiz-box">
+
+        <button
+            class="quiz-close"
+            onclick="closeQuiz()"
+        >
+            ×
+        </button>
+
+
+        <div
+            id="quizProgress"
+            class="eyebrow"
+        ></div>
+
+
+        <h2 id="quizQuestion"></h2>
+
+
+        <input
+            id="quizAnswer"
+            type="text"
+            placeholder="Votre réponse..."
+            onkeydown="
+                if(event.key === 'Enter')
+                    submitAnswer()
+            "
+        >
+
+
+        <button
+            class="primary-button quiz-submit"
+            onclick="submitAnswer()"
+        >
+            Valider
+        </button>
+
+
+        <div
+            id="quizFeedback"
+            class="quiz-feedback"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= BOOK READER ================= -->
+
+<section
+    id="bookReader"
+    class="book-reader hidden"
+>
+
+    <div class="reader-top">
+
+        <button
+            onclick="closeBookReader()"
+            class="reader-back"
+        >
+            ← Retour à la fiche
+        </button>
+
+
+        <div class="reader-heading">
+
+            <div>
+
+                <strong id="bookReaderTitle"></strong>
+
+                <small id="bookReaderAuthor"></small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="reader-progress-container">
+
+        <div
+            id="bookReaderProgress"
+            class="reader-progress"
+        ></div>
+
+    </div>
+
+
+    <div class="book-reader-layout">
+
+        <aside class="book-reader-sidebar">
+
+            <div class="reader-sidebar-title">
+                SOMMAIRE
+            </div>
+
+            <div id="bookReaderChapters"></div>
+
+        </aside>
+
+
+        <article class="book-reader-content">
+
+            <div
+                class="reader-volume"
+                id="bookReaderVolume"
+            ></div>
+
+
+            <h1 id="bookReaderChapterTitle"></h1>
+
+
+            <div id="bookReaderText"></div>
+
+
+            <div class="reader-navigation">
+
+                <button
+                    id="readerPrevious"
+                    onclick="previousChapter()"
+                    class="reader-nav-button"
+                >
+                    ← Chapitre précédent
+                </button>
+
+
+                <button
+                    id="readerNext"
+                    onclick="nextChapter()"
+                    class="reader-nav-button primary"
+                >
+                    Chapitre suivant →
+                </button>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-logo">
+        Biblio<span>.</span>
+    </div>
+
+    <p>
+        Découvrez. Lisez. Comprenez.
+    </p>
+
+    <div class="footer-note">
+    Biblio V1.0
+</div>
+
+</footer>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="js/resumes10min.js"></script>
+<script src="js/livres.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
